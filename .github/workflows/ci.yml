@@ -17,8 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: pnpm
-      # Bootstrap-only: lockfile must be generated and committed before release gating.
+      # Bootstrap-only: no pnpm lockfile exists yet. Do not enable dependency cache or frozen install until one is committed.
       - run: pnpm install --no-frozen-lockfile
       - run: pnpm typecheck
       - run: pnpm test
