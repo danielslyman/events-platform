@@ -63,18 +63,18 @@ All nineteen decisions were explicitly chosen by the user from alternatives duri
 **M1 — Munich inventory and trust**
 
 - R1. Visitors can discover real Munich events through a public website without an account; the shared platform must remain capable of supporting additional cities.
-- R2. Inventory includes scheduled events, recurring activities, and ongoing experiences, excluding generic place-only directory entries.
-- R3. Multiple independent external sources contribute listings with retained source attribution and ingestion history.
-- R4. Updates prioritize event proximity, source reliability, and change risk; expired and cancelled occurrences do not appear as upcoming recommendations.
+- R2. Inventory includes scheduled events, recurring activities, and ongoing experiences, with distinct dated occurrences or valid ongoing schedules; generic place-only directory entries are excluded.
+- R3. Multiple independent, authorized external sources contribute listings with retained source attribution and ingestion history, respecting applicable reuse and retention permissions.
+- R4. Updates prioritize event proximity, source reliability, and change risk; expired and cancelled occurrences do not appear as active upcoming recommendations, while historical and cancellation information remains distinguishable.
 - R5. Canonical records preserve provenance and distinguish verified information from unverified claims.
 - R6. Material conflicts in dates, locations, cancellations, and other consequential facts are resolved by explicit authority rules or human review before being represented as verified.
-- R7. Trusted validated submissions may publish automatically; suspicious, conflicting, or low-confidence submissions receive risk-based review.
+- R7. Trusted validated submissions may be accepted into the canonical inventory automatically; suspicious, conflicting, or low-confidence submissions receive risk-based review before acceptance or verification. Appearance in a publication remains governed separately by R13.
 - R8. Visitors can search and explore real listings through functional filters, categories, map, calendar, and event-detail views.
-- R9. Event details communicate available schedule, location, description, pricing, and original booking or information links without fabricating unavailable fields.
+- R9. Event details communicate available schedule, time zone, location, description, pricing, and original booking or information links, explicitly distinguishing unknown or unverified fields from confirmed facts.
 - R10. Visitors can save and remove events without registration; saved items persist across page reload and browser restart on the same device.
 - R11. M1's Munich website selects from the shared canonical inventory rather than owning a duplicate event database.
 - R12. The platform distinguishes canonical event facts from publication-specific selection and presentation, supporting multiple independently branded websites and apps in the long term.
-- R13. Publication rules automatically select matching inventory while allowing authorized editorial featuring, exclusion, ordering, and enrichment without modifying canonical facts; M1 must prove the selection boundary, with full editorial tooling deferred.
+- R13. Publication rules automatically select matching canonical inventory; M1 proves that selection without duplicating canonical facts. Full V1 adds authorized editorial featuring, exclusion, ordering, and enrichment that cannot alter canonical facts.
 - R14. Geography supports nested locations, while hierarchical, overlapping scenes can span cities and events can belong to multiple scenes.
 - R15. A source failure does not take down discovery or automatically discard previously valid canonical records.
 - R16. Core discovery flows are usable on mobile and accessible by keyboard.
@@ -95,7 +95,7 @@ All nineteen decisions were explicitly chosen by the user from alternatives duri
 
 ### Key Flows
 
-- **F1 — Source to inventory:** A2 authorizes a source; listings are ingested, normalized, attributed, deduplicated, validated, and either accepted or reviewed. Covers R3–R7.
+- **F1 — Source to inventory:** A2 authorizes a source; listings are ingested, normalized, attributed, matched to canonical events and occurrences, validated, and either accepted or reviewed. Covers R2–R7.
 - **F2 — Munich discovery:** A1 opens the public site, explores by search/map/calendar/filter, and views details and external booking links. Covers R1, R2, R8, R9, R16.
 - **F3 — Anonymous saving:** A1 saves an event, returns after restarting the browser, sees it retained, and can remove it. Covers R10.
 - **F4 — Update and correction:** A source changes an event or reports a cancellation; the platform evaluates authority, updates the canonical record when justified, and affected publications reflect the corrected facts. Covers R4–R7, R11–R13.
@@ -106,12 +106,12 @@ All nineteen decisions were explicitly chosen by the user from alternatives duri
 The following are **proposed M1 acceptance targets**, not empirically validated commitments. Planning must assess data-source feasibility and confirm achievable thresholds before treating them as launch gates.
 
 - **AE1 — Real coverage (R1–R3):** Given authorized live Munich sources, when ingestion completes, then listings from at least **3 independent sources** and at least **5 distinct event/experience categories** are discoverable.
-- **AE2 — Schedule/location completeness (R2, R9):** Given a representative sample of published upcoming occurrences, at least **95%** have a usable location and a valid schedule or an explicitly documented ongoing schedule.
-- **AE3 — Deduplication (R3, R11):** Given a representative manually reviewed sample of listings, at least **95%** have no duplicate canonical event representation. Sampling method and denominator are to be specified in planning.
-- **AE4 — Cancellation propagation (R4, R6, R11):** Given a verified cancellation successfully ingested, affected upcoming recommendations no longer show the occurrence as active within **30 minutes**; this measures post-ingestion propagation, not source detection latency.
+- **AE2 — Schedule/location completeness (R2, R9):** Given a representative sample of published upcoming occurrences, at least **95%** have a usable location and an unambiguous time-zone-aware schedule or explicitly documented ongoing schedule; unknown values are not silently imputed.
+- **AE3 — Deduplication (R3, R11):** Given a representative, independently labeled sample containing known cross-source duplicates and distinct events, target at least **95%** correct identity decisions, measuring false merges and missed merges separately. Sampling method, denominators, and acceptable error balance are deferred to planning.
+- **AE4 — Cancellation propagation (R4, R6, R11):** Given a verified cancellation successfully ingested, affected publications no longer present the occurrence as active within **30 minutes**, including search, map, calendar, and recommendation surfaces where present; this measures post-ingestion propagation, not source detection latency.
 - **AE5 — Local saving (R10):** Given an anonymous visitor saving an event, after reload and browser restart on the same device the saved item remains and can be removed, assuming local data has not been cleared.
 - **AE6 — Source isolation (R15):** Given one unavailable source, discovery continues using previously valid records and other available sources, with freshness appropriately indicated.
-- **AE7 — Shared record (R11–R14):** Given an event matching multiple scene/geography publication rules, the same canonical event can be selected by more than one publication without creating duplicate event facts.
+- **AE7 — Shared record (R11–R14):** Given an event matching two publication selections across geography and scenes, both can reference the same canonical event and occurrence identities without copying factual records; M1 may validate this through two configurations without launching a second website.
 - **AE8 — Trust (R5–R7):** Given conflicting start times from two sources, the platform retains provenance and does not silently present the lower-confidence claim as verified.
 - **AE9 — Accessibility (R16):** A keyboard-only visitor can navigate search results, filters, event details, and saving; mobile layouts do not block these core tasks.
 
@@ -128,6 +128,8 @@ The following are **proposed M1 acceptance targets**, not empirically validated 
 - Access to lawful, usable Munich event data from multiple independent sources is **not yet validated**; source licensing, attribution, permitted caching, and update limits require research.
 - No numerical inventory volume, duplicate rate, or update SLA is yet proven feasible. The acceptance figures above are targets for feasibility testing, not guarantees.
 - Source availability may constrain pricing, availability, cancellations, and ticketing information.
+- Recurring and multi-day experiences require correct occurrence identity, local time zones, and cancellation/rescheduling behavior to avoid misleading users.
+- Duplicate detection must avoid both repeated listings and accidental merging of distinct events; a single accuracy percentage alone can conceal either failure.
 - Publication-level editorial overrides must never silently alter shared factual claims.
 - A single logical canonical inventory does not prescribe one physical database instance forever; scaling and isolation mechanisms belong to implementation planning.
 - Geographic hierarchy and scene taxonomy are independent facets, not a single rigid tree.
@@ -136,9 +138,9 @@ The following are **proposed M1 acceptance targets**, not empirically validated 
 
 **Deferred to Planning**
 - Which lawful sources and integration methods can satisfy AE1, and what attribution/retention obligations apply?
-- What sampling protocol, reference set, and monitoring process make AE2–AE4 measurable?
+- What independent reference set, sampling protocol, false-merge/missed-merge measures, and monitoring process make AE2–AE4 measurable?
 - What achievable refresh and propagation service levels do providers permit?
-- Which minimum publication-selection behavior best proves R11–R14 in M1?
+- Which two publication configurations and scene/geography test cases will prove R11–R14 in M1 without requiring a second deployed website?
 - Which accessibility and operational checks demonstrate R15–R16?
 - What delivery sequence minimizes risk while maintaining a working consumer milestone?
 
