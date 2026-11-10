@@ -1,0 +1,128 @@
+{
+  "notice": "SYNTHETIC TEST DATA ONLY — NOT LIVE EVENTS OR LICENSED PROVIDER DATA",
+  "timeZone": "Europe/Berlin",
+  "sources": [
+    {
+      "id": "src-a",
+      "ownerId": "owner-a",
+      "name": "Synthetic Feed A"
+    },
+    {
+      "id": "src-b",
+      "ownerId": "owner-b",
+      "name": "Synthetic Feed B"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "electronic",
+      "parents": []
+    },
+    {
+      "id": "techno",
+      "parents": [
+        "electronic"
+      ]
+    },
+    {
+      "id": "industrial-techno",
+      "parents": [
+        "techno"
+      ]
+    }
+  ],
+  "events": [
+    {
+      "id": "evt-1",
+      "title": "Synthetic Industrial Night",
+      "sceneIds": [
+        "industrial-techno"
+      ],
+      "venue": {
+        "id": "venue-1",
+        "name": "Fictional Munich Venue",
+        "lat": 48.13,
+        "lon": 11.57
+      },
+      "occurrences": [
+        {
+          "id": "occ-1",
+          "startsAt": "2026-11-20T22:00:00+01:00",
+          "timeZone": "Europe/Berlin",
+          "status": "scheduled"
+        },
+        {
+          "id": "occ-2",
+          "startsAt": "2026-11-27T22:00:00+01:00",
+          "timeZone": "Europe/Berlin",
+          "status": "cancelled"
+        }
+      ],
+      "assertions": [
+        {
+          "sourceId": "src-a",
+          "nativeId": "a-1",
+          "start": "2026-11-20T22:00:00+01:00"
+        },
+        {
+          "sourceId": "src-b",
+          "nativeId": "b-88",
+          "start": "2026-11-20T23:00:00+01:00",
+          "conflict": true
+        }
+      ]
+    },
+    {
+      "id": "evt-2",
+      "title": "Synthetic Exhibition",
+      "sceneIds": [],
+      "venue": {
+        "id": "venue-2",
+        "name": "Fictional Gallery",
+        "lat": 48.14,
+        "lon": 11.58
+      },
+      "ongoingSchedule": {
+        "from": "2026-11-10",
+        "to": "2026-12-09",
+        "days": [
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat"
+        ],
+        "opens": "10:00",
+        "closes": "18:00",
+        "timeZone": "Europe/Berlin"
+      },
+      "occurrences": []
+    },
+    {
+      "id": "evt-3",
+      "title": "Synthetic Berlin-only Event",
+      "city": "Berlin",
+      "sceneIds": [
+        "techno"
+      ],
+      "occurrences": [
+        {
+          "id": "occ-3",
+          "startsAt": "2026-11-21T20:00:00+01:00",
+          "timeZone": "Europe/Berlin",
+          "status": "scheduled"
+        }
+      ]
+    }
+  ],
+  "expected": {
+    "sharedCanonicalEvent": "evt-1",
+    "sharedPublicationSelections": [
+      "munich-general",
+      "munich-techno"
+    ],
+    "cancelledExcludedOccurrence": "occ-2",
+    "berlinExcludedEvent": "evt-3",
+    "unresolvedConflictingStart": "evt-1"
+  }
+}
